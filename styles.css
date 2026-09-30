@@ -11,6 +11,7 @@ body {
     font-weight: 600;
     display: flex;
     flex-direction: column;
+    min-height: 100dvh;
 }
 
 .oxanium-logo {
@@ -36,6 +37,10 @@ a {
     padding: 0.5cap;
     gap: 20px;
     font-size:3cap;
+}
+
+main {
+    flex: 1;
 }
 
 header {
@@ -108,8 +113,6 @@ footer {
     justify-content: space-between;
     height: 150px;
     padding: 2cap;
-    position: relative;
-    bottom: -25px;
 }
 
 footer > nav {
