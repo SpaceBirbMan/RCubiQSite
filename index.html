@@ -6,42 +6,60 @@
         <div class="logo-container">
         <img src="Logo.svg">
         <h1 class="logo-header oxanium-logo"> RCubiQ </h1>
+        <p id="last-update">Загрузка...</p>
         </div>
         <nav class="main-nav">
-            <a href="download.html">Download</a>
-            <a href="plugins.html">Plugins</a>
-            <a href="docs.html">Docs</a>
-            <a href="faq.html">FAQ</a>
+            <a href="https://github.com/SpaceBirbMan/RCubiqStudio/tags">Download</a>
+            <a href="plugins.html">Plugins (n/a)</a>
+            <a href="docs.html">Docs (n/a)</a>
+            <a href="faq.html">FAQ (n/a)</a>
         </nav>
     </header>
 
     <main>
         <div class="main-container">
-            <div class="content">
-            <div class="background"></div>
-            <div class="text-about">
-                <p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
-                    sed do eiusmod  tempor incididunt ut labore et dolore magna aliqua. 
-                    Ut enim ad minim  veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea  commodo consequat. 
-                    Duis aute irure dolor in reprehenderit in voluptate  velit esse cillum dolore eu fugiat nulla pariatur. 
-                    Excepteur sint  occaecat cupidatat non proident, sunt in culpa qui officia deserunt  mollit anim id est laborum.
-                </p>
+            <div class="carousel">
+                <div class="slide active" data-index="0">
+                    <div class="content" style="background-image: linear-gradient(90deg, transparent 10%, #1E1E1E 80%), url('1.png');">
+                        <div class="text-about raleway-text">
+                            <h3> Что это?</h3>
+                            <p>Программа RCubiQ - платформа для запуска цифровых аватаров (о VTube Studio, PngTube, VeadoTube слышали? Так вот это оно). Отличается тем, что не использует технологии анимации как основу, а лишь даёт возможность их запускать и связывать с другими блоками - плагинами. Программный код аватара не обязан содержать логику для работы со Spout, интеграциями с Twitch и тому подобное. Плагины разрабатываются универсально и подходят под любую компоновку программы.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="slide" data-index="1">
+                    <div class="content" style="background-image: linear-gradient(90deg, transparent 10%, #1E1E1E 80%), url('2.png');">
+                        <div class="text-about raleway-text">
+                            <p>В настоящее время программа и плагины к ней находятся в стадии активной разработки и во многом не достают до своего базового функционала. Версии на настоящее время позволяют примерно рассмотреть принцип действия и возможности и даже использовать на деле, но это всё ещё меньше, чем должно быть. Монополию на разработку плагинов веду я, так как документация ещё не сформирована. Однако уже можно пользоваться плагинами PngPillConnect для простейших 2D-аватаров, есть поддержка Spout через SpoutEngage и существует, но не доступен в широких кругах движок для технологии Tangerine (работающий по схожему с Live2D принципу) и к нему есть редактор моделей Citrus (также не доступный публично).</p>
+                        </div>
+                    </div>
+                </div>
             </div>
-            </div>
+            
             <div class="button-container">
-            <button class = "pb" id="pag-l"> < </button>
-            <button class = "pb" id="pag-r"> > </button>
+            <button class = "pb" id="pag-l"> 
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M0.75 6.75L6.75 12.75M13.25 6.75H0.75H13.25ZM0.75 6.75L6.75 0.75L0.75 6.75Z" stroke="#21272A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+    
+            </button>
+            <button class = "pb" id="pag-r"> 
+<svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M13.25 6.75L7.25 12.75M0.75 6.75H13.25H0.75ZM13.25 6.75L7.25 0.75L13.25 6.75Z" stroke="#21272A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+
+            </button>
             </div>
         </div>
     </main>
 
     <footer>
          <nav>
-            <a href="contributing.html">Contributing</a>
-            <a href="license.html">License</a>
-            <a href="changelogs.html">Changelogs</a>
-            <a href="bugs.html">Bugs</a>
+            <a href="contributing.html">Contributing (n/a)</a>
+            <a href="https://github.com/SpaceBirbMan/RCubiqStudio/blob/master/LICENSE">License</a>
+            <a href="https://github.com/SpaceBirbMan/RCubiqStudio/releases">Changelogs</a>
+            <a href="https://github.com/SpaceBirbMan/RCubiqStudio/issues">Bugs</a>
         </nav>
         <aside class="soc-links">
             <a href="https://www.twitch.tv/gussr_one">
@@ -55,10 +73,80 @@
             </a>
         </aside>
         <aside class="year">
-            <h3> 2026 </h3>
+            
         </aside>
     </footer>
 </body>
 
 <script>
+    const slides = document.querySelectorAll('.slide');
+    const prevBtn = document.getElementById('pag-l');
+    const nextBtn = document.getElementById('pag-r');
+    let currentSlide = 0;
+
+    function showSlide(index) {
+        slides.forEach(slide => slide.classList.remove('active'));
+        slides[index].classList.add('active');
+    }
+
+    async function updateVersion() {
+        const cacheKey = 'rcubiq_version_cache';
+        const cacheTimeKey = 'rcubiq_cache_time';
+        const CACHE_DURATION = 6 * 60 * 60 * 1000; 
+        
+        const cachedData = localStorage.getItem(cacheKey);
+        const cacheTime = localStorage.getItem(cacheTimeKey);
+        
+        if (cachedData && cacheTime) {
+            const now = Date.now();
+            if (now - parseInt(cacheTime) < CACHE_DURATION) {
+                renderVersion(JSON.parse(cachedData));
+                return;
+            }
+        }
+
+        try {
+            const response = await fetch('https://api.github.com/repos/SpaceBirbMan/RCubiqStudio/releases');
+            
+            if (!response.ok) {
+                throw new Error(`GitHub API error: ${response.status}`);
+            }
+            
+            const data = await response.json();
+            
+            if (!Array.isArray(data) || data.length === 0) {
+                throw new Error('No releases found');
+            }
+
+            localStorage.setItem(cacheKey, JSON.stringify(data));
+            localStorage.setItem(cacheTimeKey, Date.now().toString());
+            
+            renderVersion(data[0]);
+            
+        } catch (err) {
+            console.error('Fetch error:', err);
+            if (cachedData) {
+                renderVersion(JSON.parse(cachedData));
+            } else {
+                document.getElementById('last-update').textContent = 'fallback'
+            }
+        }
+    }
+
+    function renderVersion(release) {
+        const version = release.tag_name;
+        document.getElementById('last-update').textContent = `${version}`;
+    }
+
+    updateVersion();
+
+    prevBtn.addEventListener('click', () => {
+        currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+        showSlide(currentSlide);
+    });
+
+    nextBtn.addEventListener('click', () => {
+        currentSlide = (currentSlide + 1) % slides.length;
+        showSlide(currentSlide);
+    });
 </script>
