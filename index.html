@@ -92,7 +92,7 @@
     async function updateVersion() {
         const cacheKey = 'rcubiq_version_cache';
         const cacheTimeKey = 'rcubiq_cache_time';
-        const CACHE_DURATION = 6 * 60 * 60 * 1000; 
+        const CACHE_DURATION = 0; 
         
         const cachedData = localStorage.getItem(cacheKey);
         const cacheTime = localStorage.getItem(cacheTimeKey);
